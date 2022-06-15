@@ -2,8 +2,10 @@ jmp enter_protected_mode
 
 %include "gdt.asm"
 %include "print.asm"
+%include "memory_info.asm"
 
 enter_protected_mode:
+	call detect_used_memory
 	call enable_a20
 	cli
 	lgdt [gdt_desc]
@@ -47,7 +49,19 @@ start_64_bit:
 	mov rax, 0x0A200A200A200A20
 	mov ecx, 500
 	rep stosq
+	call activate_sse
 	call _start
 	jmp $
+
+activate_sse:
+	mov rax, cr0
+	and ax, 0b11111101
+	or ax, 0b00000001
+	mov cr0, rax
+
+	mov rax, cr4
+	or ax, 0b1100000000
+	mov cr4, rax
+	ret
 
 times 2048-($-$$) db 0

@@ -1,6 +1,4 @@
-#pragma once
-#include "IDT.cpp"
-#include "dtypes.cpp"
+#include "keyboard.h"
 
 bool lshiftheld = false, rshiftheld = false;
 uint_8 prev_code;

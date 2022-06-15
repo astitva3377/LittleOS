@@ -3,7 +3,7 @@ program_space equ 0x8000
 read_disk:
 	mov ah, 0x02
 	mov bx, program_space
-	mov al, 32
+	mov al, 60
 	mov dl, [boot_disk]
 	mov ch, 0x00
 	mov dh, 0x00

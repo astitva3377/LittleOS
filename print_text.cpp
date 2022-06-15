@@ -1,9 +1,4 @@
-#pragma once
-#include "IO.cpp"
-#include "dtypes.cpp"
-#include "colordefs.cpp"
-#define VGA_MEMORY (uint_8*)0xB8000
-#define VGA_WIDTH 80
+#include "print_text.h"
 
 uint_16 cursor_position;
 
@@ -19,7 +14,7 @@ uint_16 getPositionFromCoordinates(uint_8 x, uint_8 y) {
 	return y * VGA_WIDTH + x;
 }
 
-void print(const char* str, uint_8 color = BACKGROUND_BLACK | TEXT_LIGHTGREEN) {
+void print(const char* str, uint_8 color) {
 	uint_8* ptr = (uint_8*)str;
 	uint_16 idx = cursor_position;
 	while (*ptr != 0) {
@@ -38,13 +33,13 @@ void print(const char* str, uint_8 color = BACKGROUND_BLACK | TEXT_LIGHTGREEN) {
 	setCursorPosition(idx);
 }
 
-void printChar(char ch, uint_8 color = BACKGROUND_BLACK | TEXT_LIGHTGREEN) {
+void printChar(char ch, uint_8 color) {
 	*(VGA_MEMORY + cursor_position * 2) = ch;
 	*(VGA_MEMORY + cursor_position * 2 + 1) = color;
 	setCursorPosition(cursor_position + 1);
 }
 
-void clear(uint_64 color = BACKGROUND_BLACK | TEXT_LIGHTGREEN) {
+void clear(uint_64 color) {
 	uint_64 val = 0;
 	val += (color << 8 | color << 24 | color << 40 | color << 56);
 	for(uint_64* i = (uint_64*)VGA_MEMORY; i < (uint_64*)(VGA_MEMORY + 4000); i++)
@@ -66,6 +61,15 @@ const char* hexToString(T value) {
 	hexBuffer[size + 1] = 0;
 	return hexBuffer;
 }
+
+const char* hexToString(uint_8 value) { return hexToString<uint_8>(value); }
+const char* hexToString(uint_16 value) { return hexToString<uint_16>(value); }
+const char* hexToString(uint_32 value) { return hexToString<uint_32>(value); }
+const char* hexToString(uint_64 value) { return hexToString<uint_64>(value); }
+const char* hexToString(char value) { return hexToString<char>(value); }
+const char* hexToString(short value) { return hexToString<short>(value); }
+const char* hexToString(int value) { return hexToString<int>(value); }
+const char* hexToString(long long value) { return hexToString<long long>(value); }
 
 char intBuffer[128];
 template<typename T>
@@ -94,4 +98,37 @@ const char* intToString(T value) {
 	intBuffer[isNeg + size - idx] = rmdr + 48;
 	intBuffer[isNeg + size + 1] = 0;
 	return intBuffer;
+}
+
+const char* intToString(uint_8 value) { return intToString<uint_8>(value); }
+const char* intToString(uint_16 value) { return intToString<uint_16>(value); }
+const char* intToString(uint_32 value) { return intToString<uint_32>(value); }
+const char* intToString(uint_64 value) { return intToString<uint_64>(value); }
+const char* intToString(char value) { return intToString<char>(value); }
+const char* intToString(short value) { return intToString<short>(value); }
+const char* intToString(int value) { return intToString<int>(value); }
+const char* intToString(long long value) { return intToString<long long>(value); }
+
+char floatBuffer[128];
+const char* floatToString(float value, uint_8 decimals) {
+	char* intptr = (char*)intToString((int)value);
+	char* floatptr = floatBuffer;
+	if(value < 0)
+		value *= -1;
+	while(*intptr != 0) {
+		*floatptr = *intptr;
+		intptr++;
+		floatptr++;
+	}
+	*floatptr = '.';
+	floatptr++;
+	float val = value - (int)value;
+	for(uint_8 i = 0; i < decimals; i++) {
+		val *= 10;
+		*floatptr = (int)val + 48;
+		val -= (int)val;
+		floatptr++;
+	}
+	*floatptr = 0;
+	return floatBuffer;
 }

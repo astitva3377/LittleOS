@@ -4,6 +4,11 @@ INPUT
 (
 	extended.o
 	kernel.o
+	IDT.o
+	IO.o
+	memory_map.o
+	print_text.o
+	keyboard.o
 	binary.o
 )
 
