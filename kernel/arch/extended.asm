@@ -1,8 +1,8 @@
 jmp enter_protected_mode
 
-%include "gdt.asm"
-%include "print.asm"
-%include "memory_info.asm"
+%include "kernel\arch\gdt.asm"
+%include "bootstrap\print.asm"
+%include "kernel\memory\memory_info.asm"
 
 enter_protected_mode:
 	call detect_used_memory
@@ -22,8 +22,8 @@ enable_a20:
 
 [bits 32]
 
-%include "cpuid.asm"
-%include "pager.asm"
+%include "kernel\arch\cpuid.asm"
+%include "kernel\memory\pager.asm"
 
 start_protected_mode:
 	mov ax, dataseg
@@ -42,7 +42,7 @@ start_protected_mode:
 [bits 64]
 [extern _start]
 
-%include "IDT.asm"
+%include "kernel\arch\IDT.asm"
 
 start_64_bit:
 	mov edi, 0xB8000
