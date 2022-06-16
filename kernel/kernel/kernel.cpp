@@ -10,8 +10,6 @@ extern "C" void _start() {
 	kb_handler = keyboard_handler;
 	MemoryMapEntry** usableRegions = getUsableRegions();
 	initHeap(0x100000, 0x100000);
-	
-	
 
 	return;
 }

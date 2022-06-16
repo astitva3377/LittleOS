@@ -15,24 +15,24 @@ void std_keyboard_handler(uint_8 code, uint_8 ch) {
 		}
 	} else {
 		switch(code) {
-			case 0x8E: //backspace
+			case 0x8E:
 				setCursorPosition(cursor_position - 1);
 				printChar(' ');
 				setCursorPosition(cursor_position - 1);
 				break;
-			case 0x2A: //Lshift
+			case 0x2A:
 				lshiftheld = true;
 				break;
-			case 0xAA: //Lshift release
+			case 0xAA:
 				lshiftheld = false;
 				break;
-			case 0x36: //Rshift
+			case 0x36:
 				rshiftheld = true;
 				break;
-			case 0xB6: //Rshift release
+			case 0xB6:
 				rshiftheld = false;
 				break;
-			case 0x9C: //enter
+			case 0x9C:
 				print("\n");
 				break;
 		}
