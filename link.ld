@@ -9,6 +9,8 @@ INPUT
 	memory_map.o
 	print_text.o
 	keyboard.o
+	heap.o
+	memory.o
 	binary.o
 )
 

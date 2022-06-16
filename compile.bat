@@ -7,6 +7,8 @@ wsl %CGCC%/x86_64-elf-gcc -Ttext 0x8000 -ffreestanding -mno-red-zone -I headers 
 wsl %CGCC%/x86_64-elf-gcc -Ttext 0x8000 -ffreestanding -mno-red-zone -I headers -m64 -c kernel/kernel/keyboard.cpp -o keyboard.o
 wsl %CGCC%/x86_64-elf-gcc -Ttext 0x8000 -ffreestanding -mno-red-zone -I headers -m64 -c kernel/memory/memory_map.cpp -o memory_map.o
 wsl %CGCC%/x86_64-elf-gcc -Ttext 0x8000 -ffreestanding -mno-red-zone -I headers -m64 -c kernel/kernel/print_text.cpp -o print_text.o
+wsl %CGCC%/x86_64-elf-gcc -Ttext 0x8000 -ffreestanding -mno-red-zone -I headers -m64 -c kernel/memory/heap.cpp -o heap.o
+wsl %CGCC%/x86_64-elf-gcc -Ttext 0x8000 -ffreestanding -mno-red-zone -I headers -m64 -c kernel/memory/memory.cpp -o memory.o
 wsl %CGCC%/x86_64-elf-ld -T link.ld
 copy /b bootloader.bin+kernel.bin bootloader.flp
 del *.bin *.o *.tmp
